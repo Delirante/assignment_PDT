@@ -24,7 +24,7 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 **Technologies used**: `Java, Spring, HTML, CSS, Javascript, Ajax, Leaflet, Postgresql, Postgis`
 
-Aplication consits of three parts: Client side - [Frontend] (#Frontend), Server side - [Backend] (#Backend), [Database] (#Database)
+Aplication consits of three parts: Client side - [Frontend] (#frontend), Server side - [Backend] (#backend), [Database] (#database)
 
 ## Frontend
 
