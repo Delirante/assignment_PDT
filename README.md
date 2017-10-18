@@ -55,17 +55,17 @@ Api is making calls to database and format result to geojson.
 	1. Service is responsible for 1 usecase.
 	2. Http call for this service may loooks like this:
 	
-		http://localhost:8080/searchFromPoint?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&point=LatLng(48.17135,%2017.06672)
+		`http://localhost:8080/searchFromPoint?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&point=LatLng(48.17135,%2017.06672)`
 2. searchInArea
 	1. Service is responsible for 2 usecase.
 	2. Http call for this service may loooks like this:
 	
-		http://localhost:8080/searchInArea?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&dropdown=0
+		`http://localhost:8080/searchInArea?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&dropdown=0`
 3. searchTriples  
 	1. Service is responsible for 3 usecase.
 	2. Http call for this service may loooks like this:
 	
-		http://localhost:8080/searchTriples?doctor=true&dentist=false&hospital=false&clinic=true&pharmacy=true&dropdown=0
+		`http://localhost:8080/searchTriples?doctor=true&dentist=false&hospital=false&clinic=true&pharmacy=true&dropdown=0`
 
 ## Database
 As a database I choose PostgreSQL with extension Postgis. This extension is suitable for working with geo data.
