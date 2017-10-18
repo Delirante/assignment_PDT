@@ -37,7 +37,7 @@ Application screenshots:
 
 **Technologies used**: `Java, Spring, Rest, HTML, CSS, Javascript, Ajax, Leaflet, Postgresql, Postgis`
 
-Application consits of three parts: Client side - [Frontend](#frontend), Server side - [Backend](#backend), [Database](#database).
+**Application consits of three parts**: Client side - [Frontend](#frontend), Server side - [Backend](#backend), [Database](#database).
 Application have build in Tomcat server which listen on address http://localhost:8080/ after run.
 
 ## Frontend
@@ -50,7 +50,7 @@ Answer from backend (geojson data) is inserted to the leaflet plugin. Plugin aft
 As a backend there is REST api written in language Java with framework Spring.
 Api is making calls to database and format result to geojson.
 
-Api contains 3 REST services:
+**Api contains 3 REST services**:
 1. searchFromPoint
 	1. Service is responsible for 1 usecase.
 	2. Http call for this service may loooks like this:
@@ -70,9 +70,10 @@ Api contains 3 REST services:
 ## Database
 As a database I choose PostgreSQL with extension Postgis. This extension is suitable for working with geo data.
 I downloaded geo data from OpenStreetMaps and for importing I used osm2pgsql plugin. 
-Command for import looks like this:
 
-osm2pgsql -S %pathToDefaultStyle% -l -U postgres -H localhost -W %pathToOsmFile%
+**Command for import**:
+
+`osm2pgsql -S %pathToDefaultStyle% -l -U postgres -H localhost -W %pathToOsmFile%`
 
 Data were imported with 4326 projection. Database contains just data from Bratislava city.
 
