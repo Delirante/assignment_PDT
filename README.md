@@ -38,6 +38,7 @@ There are three main usecases which can my application do:
 **Technologies used**: `Java, Spring, Rest, HTML, CSS, Javascript, Ajax, Leaflet, Postgresql, Postgis`
 
 **Application consits of three parts**: Client side - [Frontend](#frontend), Server side - [Backend](#backend), [Database](#database).
+
 Application have build in Tomcat server which listen on address http://localhost:8080/ after run.
 
 ## Frontend
