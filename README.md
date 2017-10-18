@@ -35,14 +35,14 @@ Application screenshots:
 
 **Data source**: `Open street map`
 
-**Technologies used**: `Java, Spring, HTML, CSS, Javascript, Ajax, Leaflet, Postgresql, Postgis`
+**Technologies used**: `Java, Spring, Rest, HTML, CSS, Javascript, Ajax, Leaflet, Postgresql, Postgis`
 
 Application consits of three parts: Client side - [Frontend](#frontend), Server side - [Backend](#backend), [Database](#database).
 Application have build in Tomcat server which listen on address http://localhost:8080/ after run.
 
 ## Frontend
 As a frontend there is one html file called index.html. 
-Index.html contains leaflet widget which is responsible for managing map and left panel which is contains buttons responsible for mentioned functionalities (three usecases).
+This file contains leaflet widget which is responsible for managing map and left_panel which contains buttons responsible for mentioned functionalities (three usecases).
 Buttons in left panel call ajax requests to the backend. Backend process these requests and answer to frontend with http POSTs which contains geojson data. 
 Answer from backend (geojson data) is inserted to the leaflet plugin. Plugin afterwards paint result to the map.
 
@@ -54,19 +54,26 @@ Api contains 3 REST services:
 1. searchFromPoint
 	1. Service is responsible for 1 usecase.
 	2. Http call for this service may loooks like this:
+	
 		http://localhost:8080/searchFromPoint?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&point=LatLng(48.17135,%2017.06672)
 2. searchInArea
 	1. Service is responsible for 2 usecase.
 	2. Http call for this service may loooks like this:
+	
 		http://localhost:8080/searchInArea?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&dropdown=0
 3. searchTriples  
 	1. Service is responsible for 3 usecase.
 	2. Http call for this service may loooks like this:
+	
 		http://localhost:8080/searchTriples?doctor=true&dentist=false&hospital=false&clinic=true&pharmacy=true&dropdown=0
 
-The backend application is written in Python and there are executed quries through library mentined earlier. It helps with working with geo data and formatting them to the geojson.
-
-## Data
-
-
 ## Database
+As a database I choose PostgreSQL with extension Postgis. This extension is suitable for working with geo data.
+I downloaded geo data from OpenStreetMaps and for importing I used osm2pgsql plugin. 
+Command for import looks like this:
+
+osm2pgsql -S %pathToDefaultStyle% -l -U postgres -H localhost -W %pathToOsmFile%
+
+Data were imported with 4326 projection. Database contains just data from Bratislava city.
+
+
