@@ -81,11 +81,74 @@ Data were imported with 4326 projection. Database contains just data from Bratis
 I made three databse queries, below is the ilustration of them:
 1. Get all healtcare objects with selected amenity and count distance between them and user position.
 
-`"SELECT ST_X (way), ST_Y (way), amenity, name, ST_DistanceSphere(st_makepoint(?,?), way) FROM planet_osm_point where " + amenity`
+~~~~
+"SELECT ST_X (way), ST_Y (way), amenity, name, ST_DistanceSphere(st_makepoint(?,?), way)
+FROM planet_osm_point
+where " + amenity
+~~~~
 
 2. Get all healthcare objects with selected amenity in chosen area which have parking place closer than 500 meters.
+	
+~~~~
+"SELECT ST_X (a.way), ST_Y (a.way), a.amenity, a.name 
+FROM planet_osm_point as a 
+where 
+ST_Contains( ST_GeomFromText("+polygon+"),a.way) 
+and (" +amenity+ ") 
+and 
+	(select ST_DistanceSphere(b.way, a.way) as distance 
+	from planet_osm_point as b 
+	where 
+	b.amenity = 'parking' 
+	or b.amenity = 'parking_entrance' 
+	or b.amenity = 'parking_space' 
+	order by distance ASC 
+	limit 1)
+< 500"
+~~~~
 
-`"SELECT ST_X (a.way), ST_Y (a.way), a.amenity, a.name FROM planet_osm_point as a where ST_Contains( ST_GeomFromText("+polygon+"),a.way) and (" +amenity+ ") and (select ST_DistanceSphere(b.way, a.way) as distance from planet_osm_point as b where b.amenity = 'parking' or b.amenity = 'parking_entrance' or b.amenity = 'parking_space' order by distance ASC limit 1) < 500"`
-
-
+3. Get three healthcare objects based on selected amenity in chosen area which are closest to each other.
+	
+~~~~
+"WITH 			
+pointA AS 
+(SELECT a.osm_id, a.way
+FROM planet_osm_point a 
+WHERE 
+ST_Contains(ST_GeomFromText("+polygon+"), a.way) 
+	and a.amenity = '"+amenity.get(0)+"'
+),
+pointB AS 
+(SELECT b.osm_id, b.way
+FROM planet_osm_point b 
+WHERE 
+ST_Contains(ST_GeomFromText("+polygon+"), b.way) 
+	and b.amenity = '"+amenity.get(1)+"'
+),
+pointC AS 
+(SELECT c.osm_id, c.way
+FROM planet_osm_point c 
+WHERE 
+ST_Contains(ST_GeomFromText("+polygon+"), c.way) 
+	and c.amenity = '"+amenity.get(2)+"'				
+), 
+crossAB AS
+(select pointA.osm_id as pointA_id, pointA.way as pointA_way, pointB.osm_id as pointB_id, pointB.way as pointB_way,	ST_DistanceSphere(pointA.way, pointB.way) as distanceAB 
+from pointA 
+cross join pointB 
+order by distanceAB asc				
+),
+finalResult AS
+(select crossAB.pointA_id, crossAB.pointB_id, pointC.osm_id as pointC_id, crossAB.distanceAB, crossAB.distanceAB + ST_DistanceSphere(crossAB.pointA_way, pointC.way) as trol 
+from crossAB 
+cross join pointC
+order by trol asc 
+limit 1
+)				
+select ST_X (way), ST_Y (way), amenity, name 
+from planet_osm_point
+where osm_id = (select pointA_id from finalResult) or
+osm_id = (select pointB_id from finalResult) or
+osm_id = (select pointC_id from finalResult)"
+~~~~
 
