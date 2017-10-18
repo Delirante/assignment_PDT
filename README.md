@@ -18,10 +18,12 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 ## My project
 
-Fill in (either in English, or in Slovak):
+**Application description**: ``
 
-**Application description**: `<fill in>`
+**Data source**: `Open street map`
 
-**Data source**: `<fill in>`
+**Technologies used**: `Java, Spring, HTML, CSS, Javascript, Ajax, Leaflet, Postgresql, Postgis`
 
-**Technologies used**: `<fill in>`
+Aplication consits of three parts: Client side - [Frontend] (#Frontend), Server side - [Backend] (#Backend), [Database] (#Database)
+
+
