@@ -27,6 +27,7 @@ There are three main usecases which can my application do.
 * Show on map three nearsets healthcare objects in chosen area (Ruzinov, Petrzalka ect.).`
 
 Application screenshots:
+
 ![Screenshot](scr1.png)
 
 ![Screenshot](scr2.png)
