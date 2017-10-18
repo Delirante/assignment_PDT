@@ -27,7 +27,7 @@ There are three main usecases which can my application do:
 2. Show on map healthcare objects in chosen area (Ruzinov, Petrzalka ect.) which have nearby parking place.
 3. Show on map three nearsets healthcare objects in chosen area (Ruzinov, Petrzalka ect.).
 
-Application screenshots:
+**Application screenshots**:
 
 ![Screenshot](scr1.png)
 
@@ -76,5 +76,11 @@ I downloaded geo data from OpenStreetMaps and for importing I used osm2pgsql plu
 `osm2pgsql -S %pathToDefaultStyle% -l -U postgres -H localhost -W %pathToOsmFile%`
 
 Data were imported with 4326 projection. Database contains just data from Bratislava city.
+
+### Database queries
+I made three databse queries, below is the ilustration of them:
+1. Get all healtcare objects with selected aminety and count distance between them and user position.
+
+`"SELECT ST_X (way), ST_Y (way), amenity, name, ST_DistanceSphere(st_makepoint(?,?), way) FROM planet_osm_point where " + amenity;`
 
 
