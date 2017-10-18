@@ -79,8 +79,13 @@ Data were imported with 4326 projection. Database contains just data from Bratis
 
 ### Database queries
 I made three databse queries, below is the ilustration of them:
-1. Get all healtcare objects with selected aminety and count distance between them and user position.
+1. Get all healtcare objects with selected amenity and count distance between them and user position.
 
-`"SELECT ST_X (way), ST_Y (way), amenity, name, ST_DistanceSphere(st_makepoint(?,?), way) FROM planet_osm_point where " + amenity;`
+`"SELECT ST_X (way), ST_Y (way), amenity, name, ST_DistanceSphere(st_makepoint(?,?), way) FROM planet_osm_point where " + amenity`
+
+2. Get all healthcare objects with selected amenity in chosen area which have parking place closer than 500 meters.
+
+`"SELECT ST_X (a.way), ST_Y (a.way), a.amenity, a.name FROM planet_osm_point as a where ST_Contains( ST_GeomFromText("+polygon+"),a.way) and (" +amenity+ ") and (select ST_DistanceSphere(b.way, a.way) as distance from planet_osm_point as b where b.amenity = 'parking' or b.amenity = 'parking_entrance' or b.amenity = 'parking_space' order by distance ASC limit 1) < 500"`
+
 
 
