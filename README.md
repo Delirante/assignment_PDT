@@ -23,9 +23,9 @@ User have option to mark which objects he want to show on map (doctors, dentists
 Every shown object on map have popup with its own description. Shown objects are color separated.
 There are three main usecases which can my application do:
 
-* Show on map healthcare objects and fill them with color based on how far they are from user position.
-* Show on map healthcare objects in chosen area (Ruzinov, Petrzalka ect.) which have nearby parking place.
-* Show on map three nearsets healthcare objects in chosen area (Ruzinov, Petrzalka ect.).
+1. Show on map healthcare objects and fill them with color based on how far they are from user position.
+2. Show on map healthcare objects in chosen area (Ruzinov, Petrzalka ect.) which have nearby parking place.
+3. Show on map three nearsets healthcare objects in chosen area (Ruzinov, Petrzalka ect.).
 
 Application screenshots:
 
@@ -37,12 +37,36 @@ Application screenshots:
 
 **Technologies used**: `Java, Spring, HTML, CSS, Javascript, Ajax, Leaflet, Postgresql, Postgis`
 
-Aplication consits of three parts: Client side - [Frontend](#frontend), Server side - [Backend](#backend), [Database](#database)
+Application consits of three parts: Client side - [Frontend](#frontend), Server side - [Backend](#backend), [Database](#database).
+Application have build in Tomcat server which listen on address http://localhost:8080/ after run.
 
 ## Frontend
-
+As a frontend there is one html file called index.html. 
+Index.html contains leaflet widget which is responsible for managing map and left panel which is contains buttons responsible for mentioned functionalities (three usecases).
+Buttons in left panel call ajax requests to the backend. Backend process these requests and answer to frontend with http POSTs which contains geojson data. 
+Answer from backend (geojson data) is inserted to the leaflet plugin. Plugin afterwards paint result to the map.
 
 ## Backend
+As a backend there is REST api written in language Java with framework Spring.
+Api is making calls to database and format result to geojson.
+
+Api contains 3 REST services:
+1. searchFromPoint
+	1. Service is responsible for 1 usecase.
+	2. Http call for this service may loooks like this:
+		http://localhost:8080/searchFromPoint?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&point=LatLng(48.17135,%2017.06672)
+2. searchInArea
+	1. Service is responsible for 2 usecase.
+	2. Http call for this service may loooks like this:
+		http://localhost:8080/searchInArea?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&dropdown=0
+3. searchTriples  
+	1. Service is responsible for 3 usecase.
+	2. Http call for this service may loooks like this:
+		http://localhost:8080/searchTriples?doctor=true&dentist=false&hospital=false&clinic=true&pharmacy=true&dropdown=0
+
+The backend application is written in Python and there are executed quries through library mentined earlier. It helps with working with geo data and formatting them to the geojson.
+
+## Data
 
 
 ## Database
