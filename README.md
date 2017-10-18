@@ -19,11 +19,17 @@ Build a map-based application, which lets the user see geo-based data on a map a
 # My project
 
 **Application description**: `Application shows on map various healthcare objects in Bratislava city. 
-User have option to mark which objects he want to show on map, like doctors, dentists, hospitals ect.
+User have option to mark which objects he want to show on map (doctors, dentists, hospitals ect.).
+Every shown object on map have popup with its own description. Shown objects are color separated.
 There are three main usecases which can my application do.
-* 1. Show on map healthcare objects and fill them with color based on how far they are from user position.
-* 2. Show on map healthcare objects in selected area like Ruzinov, Petrzalka ect.
-* 3. `
+* Show on map healthcare objects and fill them with color based on how far they are from user position.
+* Show on map healthcare objects in chosen area (Ruzinov, Petrzalka ect.) which have nearby parking place.
+* Show on map three nearsets healthcare objects in chosen area (Ruzinov, Petrzalka ect.).`
+
+Application screenshots:
+![Screenshot](scr1.png)
+
+![Screenshot](scr2.png)
 
 **Data source**: `Open street map`
 
