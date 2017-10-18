@@ -78,7 +78,7 @@ I downloaded geo data from OpenStreetMaps and for importing I used osm2pgsql plu
 Data were imported with 4326 projection. Database contains just data from Bratislava city.
 
 ### Database queries
-I made three databse queries, below is the ilustration of them:
+I made three database queries, below is the ilustration of them:
 1. Get all healtcare objects with selected amenity and count distance between them and user position.
 
 ~~~~
@@ -133,7 +133,7 @@ ST_Contains(ST_GeomFromText("+polygon+"), c.way)
 	and c.amenity = '"+amenity.get(2)+"'				
 ), 
 crossAB AS
-(select pointA.osm_id as pointA_id, pointA.way as pointA_way, pointB.osm_id as pointB_id, pointB.way as pointB_way,	ST_DistanceSphere(pointA.way, pointB.way) as distanceAB 
+(select pointA.osm_id as pointA_id, pointA.way as pointA_way, pointB.osm_id as pointB_id, pointB.way as pointB_way, ST_DistanceSphere(pointA.way, pointB.way) as distanceAB 
 from pointA 
 cross join pointB 
 order by distanceAB asc				
