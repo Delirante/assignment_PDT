@@ -16,7 +16,7 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 - [Open Street Maps](https://www.openstreetmap.org/)
 
-## My project
+# My project
 
 **Application description**: ``
 
@@ -26,4 +26,10 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 Aplication consits of three parts: Client side - [Frontend] (#Frontend), Server side - [Backend] (#Backend), [Database] (#Database)
 
+## Frontend
 
+
+## Backend
+
+
+## Database
