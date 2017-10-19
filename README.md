@@ -18,14 +18,14 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 # My project
 
-**Application description**: Application shows on map various healthcare objects in Bratislava city. 
-User have option to mark which objects he want to show on map (doctors, dentists, hospitals ect.).
-Every shown object on map have popup with its own description. Shown objects are color separated.
-There are three main usecases which can my application do:
+**Application description**: Application shows various healthcare objects in Bratislava city on map. 
+User have option to mark which objects he wants to show on map (doctors, dentists, hospitals ect.).
+Every shown object on map has popup with it's own description. Shown objects are separated by color.
+There are three main usecases that the application can do:
 
-1. Show on map healthcare objects and fill them with color based on how far they are from user position.
-2. Show on map healthcare objects in chosen area (Ruzinov, Petrzalka ect.) which have nearby parking place.
-3. Show on map three nearsets healthcare objects in chosen area (Ruzinov, Petrzalka ect.).
+1. Show healthcare objects on map  and fill them with color based on how far they are from user position.
+2. Show healthcare objects on map  in chosen area (Ruzinov, Petrzalka ect.) which have nearby parking place.
+3. Show three nearest healthcare objects on map in chosen area (Ruzinov, Petrzalka ect.).
 
 **Application screenshots**:
 
@@ -39,37 +39,37 @@ There are three main usecases which can my application do:
 
 **Application consits of three parts**: Client side - [Frontend](#frontend), Server side - [Backend](#backend), [Database](#database).
 
-Application have build in Tomcat server which listen on address http://localhost:8080/ after run.
+The application has built in Tomcat server which listens on address http://localhost:8080/ after run.
 
 ## Frontend
 As a frontend there is one html file called index.html. 
-This file contains leaflet widget which is responsible for managing map and left_panel which contains buttons responsible for mentioned functionalities (three usecases).
-Buttons in left panel call ajax requests to the backend. Backend process these requests and answer to frontend with http POSTs which contains geojson data. 
-Answer from backend (geojson data) is inserted to the leaflet plugin. Plugin afterwards paint result to the map.
+This file contains leaflet widget responsible for managing map and left_panel which contains buttons responsible for mentioned functionalities (three usecases).
+Buttons in left panel call ajax requests to the backend. Backend processes these requests and answers to frontend with http POSTs which contains geojson data. 
+Answer from backend (geojson data) is inserted to the leaflet plugin. Plugin afterwards renders results in the map.
 
 ## Backend
 As a backend there is REST api written in language Java with framework Spring.
-Api is making calls to database and format result to geojson.
+Api is making calls to database and format results to geojson.
 
 **Api contains 3 REST services**:
 1. searchFromPoint
 	1. Service is responsible for 1 usecase.
-	2. Http call for this service may loooks like this:
+	2. Http call for this service may look like this:
 	
 		`http://localhost:8080/searchFromPoint?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&point=LatLng(48.17135,%2017.06672)`
 2. searchInArea
 	1. Service is responsible for 2 usecase.
-	2. Http call for this service may loooks like this:
+	2. Http call for this service may look like this:
 	
 		`http://localhost:8080/searchInArea?doctor=true&dentist=true&hospital=true&clinic=true&pharmacy=true&dropdown=0`
 3. searchTriples  
 	1. Service is responsible for 3 usecase.
-	2. Http call for this service may loooks like this:
+	2. Http call for this service may look like this:
 	
 		`http://localhost:8080/searchTriples?doctor=true&dentist=false&hospital=false&clinic=true&pharmacy=true&dropdown=0`
 
 ## Database
-As a database I choose PostgreSQL with extension Postgis. This extension is suitable for working with geo data.
+As a database I chose PostgreSQL with extension Postgis. This extension is suitable for working with geo data.
 I downloaded geo data from OpenStreetMaps and for importing I used osm2pgsql plugin. 
 
 **Command for import**:
@@ -79,8 +79,8 @@ I downloaded geo data from OpenStreetMaps and for importing I used osm2pgsql plu
 Data were imported with 4326 projection. Database contains just data from Bratislava city.
 
 ### Database queries
-I made three database queries, below is the ilustration of them:
-1. Get all healtcare objects with selected amenity and count distance between them and user position.
+I made three database queries, bellow is the ilustration of them:
+1. Get all healtcare objects with selected amenity and count distance between them and user's position.
 
 ~~~~
 "SELECT ST_X (way), ST_Y (way), amenity, name, ST_DistanceSphere(st_makepoint(?,?), way)
@@ -88,7 +88,7 @@ FROM planet_osm_point
 where " + amenity
 ~~~~
 
-2. Get all healthcare objects with selected amenity in chosen area which have parking place closer than 500 meters.
+2. Get all healthcare objects with selected amenity in chosen area with parking place closer than 500 meters.
 	
 ~~~~
 "SELECT ST_X (a.way), ST_Y (a.way), a.amenity, a.name 
