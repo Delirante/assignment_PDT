@@ -29,9 +29,9 @@ There are three main usecases that the application can do:
 
 **Application screenshots**:
 
-![Screenshot](scr1.png)
+![Screenshot](src1.png)
 
-![Screenshot](scr2.png)
+![Screenshot](src2.png)
 
 **Data source**: `Open street map`
 
