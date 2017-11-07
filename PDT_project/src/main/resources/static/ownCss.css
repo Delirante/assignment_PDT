@@ -1,0 +1,37 @@
+.paddingZero
+{
+	padding: 0px !important;
+}
+
+.background
+{
+	background-color: #d3effd;
+}
+
+.padding10
+{
+	padding: 10px;
+}
+
+.marginBottom15
+{
+	margin-bottom:15px !important;
+}
+
+label
+{
+	font-weight: 500 !important;
+}
+
+h4
+{
+	font-weight: 550 !important;
+}
+
+button
+{
+	width: 100%;
+	white-space: normal !important;
+	padding-left: 6px !important;
+	padding-right: 6px !important;
+}

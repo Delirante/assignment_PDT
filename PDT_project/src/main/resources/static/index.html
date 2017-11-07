@@ -1,0 +1,575 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>PDT project xkralm1</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link href="ownCss.css" rel="stylesheet" type="text/css">
+<link href="bootstrap.min.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet"
+	href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+	integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+	crossorigin="" />
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+	integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+	crossorigin=""></script>
+	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+</head>
+
+<body>
+	<div class="container-fluid">
+
+		<div class="row">
+			<div id="leftPanel" class="col-md-2 col-xs-12 background padding10">
+
+				<h4>Show</h4>
+				<div>
+					<input type="checkbox" name="mapCheck" id="check1" checked>
+					<label for="check1">Doctor</label><br>
+		 
+					<input type="checkbox" name="mapCheck" id="check2" checked>
+					<label for="check2">Dentist</label><br>
+					
+					<input type="checkbox" name="mapCheck" id="check3" checked>
+					<label for="check3">Hospital</label><br>
+					
+					<input type="checkbox" name="mapCheck" id="check4" checked>
+					<label for="check4">Clinic</label><br>
+					
+					<input type="checkbox" name="mapCheck" id="check5" checked>
+					<label for="check5">Pharmacy</label>
+				</div>
+
+				<h4>Choose area</h4>
+				<select class="form-control" id="dropdown">
+				  <option value="0" selected="selected">Bratislava</option>
+				  <option value="1">Centrum</option>
+				  <option value="2">Dubravka</option>
+				  <option value="3">Karlova Ves</option>
+				  <option value="4">Petrzalka</option>
+				  <option value="5">Raca</option>
+				  <option value="6">Ruzinov</option>
+				</select>
+
+				<h4>Actions</h4>
+				<button class="btn btn-warning marginBottom15" type="submit"	onclick="clearMapAll()">Clear map</button><br>
+				<button class="btn btn-warning marginBottom15" type="submit"	onclick="searchFromPoint()">Search objects by position</button><br>
+				<button class="btn btn-warning marginBottom15" type="submit"	onclick="searchInArea()">Search objects with parking in 500 meters in chosen area </button><br>
+				<button class="btn btn-warning marginBottom15" type="submit"	onclick="searchTriples()">Search nearest three objects in chosen area</button><br>
+				<!--  <button class="btn btn-warning" type="submit"	onclick="coordinatesOfPolygon()">Polygon</button>  -->
+				
+			</div>
+			
+			<div id="divMap" style="position:relative " class="col-md-10 col-xs-12 paddingZero">
+				<div id="mapid" style="z-index: 1;"></div>
+				
+				<div id="colors" class="padding10 background" style="height: 270px; width:150px; z-index: 2; position: absolute; top: 0px; left: 0px;">
+					<h4>Colors on map</h4>
+					<div>
+						<div style="height: 15px; width: 50px; background-color: green; float: left;"></div>
+						<div>
+							<label style="padding-left: 10px; font-weight: bold !important;">
+								Close
+							</label>
+						</div>
+					</div>
+					<div>
+						<div style="height: 15px; width: 50px; background-color: orange; float: left;"></div>
+						<div>
+							<label style="padding-left: 10px; font-weight: bold !important;">
+								Middle
+							</label>
+						</div>
+					</div>
+					<div>
+						<div style="height: 15px; width: 50px; background-color: red; float: left;"></div>
+						<div>
+							<label style="padding-left: 10px; font-weight: bold !important;">
+								Far
+							</label>
+						</div>
+					</div>
+					<hr style="margin-top: 5px !important; margin-bottom: 10px !important; border-top: 1px solid black;">
+					<div>
+						<div style="height: 15px; width: 50px; background-color: DeepSkyBlue; float: left;"></div>
+						<div>
+							<label style="padding-left: 10px; font-weight: bold !important;">
+								Doctor
+							</label>
+						</div>
+					</div>
+					<div>
+						<div style="height: 15px; width: 50px; background-color: yellow; float: left;"></div>
+						<div>
+							<label style="padding-left: 10px; font-weight: bold !important;">
+								Dentist
+							</label>
+						</div>
+					</div>
+					<div>
+						<div style="height: 15px; width: 50px; background-color: grey; float: left;"></div>
+						<div>
+							<label style="padding-left: 10px; font-weight: bold !important;">
+								Hospital
+							</label>
+						</div>
+					</div>
+					<div>
+						<div style="height: 15px; width: 50px; background-color: brown; float: left;"></div>
+						<div>
+							<label style="padding-left: 10px; font-weight: bold !important;">
+								Clinic
+							</label>
+						</div>
+					</div>
+					<div>
+					<div style="height: 15px; width: 50px; background-color: violet; float: left;"></div>
+					<div>
+						<label style="padding-left: 10px; font-weight: bold !important;">
+							Pharmacy
+						</label>
+					</div>
+				</div>
+				</div>
+
+			</div>
+
+			</div>
+		</div>
+	
+<!-- TODO Spracovat vystup z DB do mapy -->
+
+</body>
+
+<script type="text/javascript" language="javascript">
+	document.getElementById('mapid').style.height = window.innerHeight + "px";
+	document.getElementById('leftPanel').style.height = window.innerHeight + "px";
+	
+	document.getElementById('colors').style.top = window.innerHeight - 270 + "px";
+</script>
+
+
+<script type="text/javascript" language="javascript">
+
+	var map = L.map('mapid').setView([ 48.1563319, 17.1301647 ], 13);
+
+	L
+			.tileLayer(
+					'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+					{
+						maxZoom : 18,
+						attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+								+ '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, '
+								+ 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+						id : 'mapbox.streets'
+					}).addTo(map);
+	
+    var editableLayers = new L.FeatureGroup();
+    map.addLayer(editableLayers);
+    
+    var options = {
+        position: 'topleft',
+        draw: {
+            polyline: false,
+            polygon: false,
+            circle: false, 
+            rectangle: false
+            
+        },
+        edit: {
+            featureGroup: editableLayers, //REQUIRED!!
+            remove: true
+        }
+    };
+    
+    var drawControl = new L.Control.Draw(options);
+    map.addControl(drawControl);
+    
+    map.on(L.Draw.Event.CREATED, function (e) {
+        var type = e.layerType,
+            layer = e.layer;
+    
+        if (type === 'marker') {
+        	
+        	clearMapAll();
+        	
+            drawControl.setDrawingOptions({
+            	marker:false
+            });
+            map.removeControl(drawControl);
+            map.addControl(drawControl);
+        }
+        
+        editableLayers.addLayer(layer);
+    });
+    
+    map.on(L.Draw.Event.DELETED, function (e) {
+    	
+   	    var layers = e.layers;
+   	    layers.eachLayer(function (layer) {
+   	        if (layer instanceof L.Marker){
+   	        	drawControl.setDrawingOptions({
+   	            	marker:true
+   	            });
+   	            map.removeControl(drawControl);
+   	            map.addControl(drawControl);
+   	        }
+   	  
+   	    });
+    });
+   
+    
+</script>
+
+<script>
+	function checkCheckBoxes() {
+	var checkBoxes = document.getElementsByName( 'mapCheck' );
+	var isChecked = false;
+	    for (var i = 0; i < checkBoxes.length; i++) {
+	        if ( checkBoxes[i].checked ) {
+	            isChecked = true;
+	        };
+	    };
+	return isChecked;
+	}
+	
+	function checkCheckBoxes2() {
+		var checkBoxes = document.getElementsByName( 'mapCheck' );
+		var isChecked = 0;
+		    for (var i = 0; i < checkBoxes.length; i++) {
+		        if ( checkBoxes[i].checked ) {
+		            isChecked++;
+		        };
+		    };
+		if(isChecked === 3)
+			return true;
+		else
+			return false;
+		}
+		
+	function pointExists()
+	{
+		var result = null;
+		var x = 0 ;
+		map.eachLayer(function (layer) {
+	       if (layer instanceof L.Marker || layer instanceof L.CircleMarker){
+	    	   result = layer;
+	    	   x++;
+	       }
+	   	});
+		if(x == 1)
+			return result;
+		else
+			return null;
+	}
+	
+	function polygonExists()
+	{
+		var result = null;
+		map.eachLayer(function (layer) {
+	       if (layer instanceof L.Polygon){
+	    	   result = layer;
+	       }
+	   	});
+		return result;
+	}
+</script>
+
+<script type="text/javascript" language="javascript">
+	function clearMapAll() 
+	{
+		map.eachLayer(function (layer) {
+	       if (layer instanceof L.Marker || layer instanceof L.CircleMarker ){
+	    	   map.removeLayer(layer);
+	       }
+	      
+		});
+		drawControl.setDrawingOptions({
+           	marker:true,
+           });
+		map.removeControl(drawControl);
+        map.addControl(drawControl);
+	}
+	
+	function clearMapCircleMarker() 
+	{
+		map.eachLayer(function (layer) {
+	       if (layer instanceof L.CircleMarker ){
+	    	   map.removeLayer(layer);
+	       }
+	      
+		});
+	}
+	
+	function coordinatesOfPolygon() {
+		var polygon = polygonExists();
+		var points = polygon.getLatLngs()[0];
+		
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", "/coordinatesOfPolygon?points="+points, false);
+		xhttp.setRequestHeader("Content-type", "application/json");
+		xhttp.send();
+		var response = xhttp.responseText;
+	}
+</script>
+
+
+<script type="text/javascript" language="javascript">
+	
+	var markerGreen = {
+		    radius: 8,
+		    fillColor: "green",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 1
+		};
+	
+	var markerOrange = {
+		    radius: 8,
+		    fillColor: "orange",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 1
+		};
+	
+	var markerRed = {
+		    radius: 8,
+		    fillColor: "red",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 1
+		};
+	
+	var markerBrown = {
+		    radius: 8,
+		    fillColor: "brown",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 0.8
+		};
+	
+	var markerBlue = {
+		    radius: 8,
+		    fillColor: "DeepSkyBlue",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 0.8
+		};
+	
+	var markerYellow = {
+		    radius: 8,
+		    fillColor: "yellow",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 0.8
+		};
+	
+	var markerGrey = {
+		    radius: 8,
+		    fillColor: "grey",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 0.8
+		};
+	
+	var markerViolet = {
+		    radius: 8,
+		    fillColor: "violet",
+		    color: "#000",
+		    weight: 1,
+		    opacity: 1,
+		    fillOpacity: 0.8
+		};
+	
+	function onEachFeature(feature, layer) {
+	    if (feature.properties.amenity.length > 0 && feature.properties.name !== 'null') {
+	        layer.bindPopup('Amenity: ' + feature.properties.amenity + " Name: " + feature.properties.name);
+	    }
+	    else {
+	        layer.bindPopup('Amenity: ' + feature.properties.amenity);
+	    }
+	}
+
+	function searchInArea() {
+		
+		clearMapAll();
+		
+		if(checkCheckBoxes())
+		{
+			var doctor = document.getElementById('check1').checked;
+			var dentist = document.getElementById('check2').checked;
+			var hospital = document.getElementById('check3').checked;
+			var clinic = document.getElementById('check4').checked;
+			var pharmacy = document.getElementById('check5').checked;
+
+			var e = document.getElementById("dropdown");
+			var dropdown = e.options[e.selectedIndex].value;
+			
+			var xhttp = new XMLHttpRequest();
+			  xhttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {				      
+			      	var response = JSON.parse(this.responseText);
+					
+			      	if(this.responseText !== 'null')
+			      	{
+			      		L.geoJSON(response, {
+			    			onEachFeature: onEachFeature,
+			    		    pointToLayer: function (feature, latlng) {
+			    		    	  switch(feature.style.fill){
+			    		            case "red": return L.circleMarker(latlng, markerRed);
+			    		            case "orange": return L.circleMarker(latlng, markerOrange);
+			    		            case "green": return L.circleMarker(latlng, markerGreen);
+			    		            case "blue": return L.circleMarker(latlng, markerBlue);
+			    		            case "brown": return L.circleMarker(latlng, markerBrown);
+			    		            case "violet": return L.circleMarker(latlng, markerViolet);
+			    		            case "yellow": return L.circleMarker(latlng, markerYellow);
+			    		            case "grey": return L.circleMarker(latlng, markerGrey);
+			    		    }
+			    		    }
+			    		}).addTo(map);	
+			      	}
+			      	else
+			      	{
+			      		alert( 'There is not any object in chosen area.' );
+			      	}
+			    }
+			  };
+			xhttp.open("GET", "/searchInArea?doctor="+doctor+"&dentist="+dentist+"&hospital="+hospital+
+					"&clinic="+clinic+"&pharmacy="+pharmacy+"&dropdown="+dropdown, true);
+			xhttp.send();
+		}
+		else
+		{
+            alert( 'Check atleast one object.' );
+		}
+	}
+	
+	function searchFromPoint() {
+		
+		clearMapCircleMarker();
+		
+		if(checkCheckBoxes())
+		{
+			marker = pointExists();
+			if(marker)
+			{
+				var doctor = document.getElementById('check1').checked;
+				var dentist = document.getElementById('check2').checked;
+				var hospital = document.getElementById('check3').checked;
+				var clinic = document.getElementById('check4').checked;
+				var pharmacy = document.getElementById('check5').checked;
+				var point = marker.getLatLng();	
+				
+				var xhttp = new XMLHttpRequest();
+				  xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {				      
+				      	var response = JSON.parse(this.responseText);
+						
+				      	if(response !== 'null')
+				      	{
+				      		L.geoJSON(response, {
+				    			onEachFeature: onEachFeature,
+				    		    pointToLayer: function (feature, latlng) {
+				    		    	  switch(feature.style.fill){
+				    		    	  case "red": return L.circleMarker(latlng, markerRed);
+				    		            case "orange": return L.circleMarker(latlng, markerOrange);
+				    		            case "green": return L.circleMarker(latlng, markerGreen);
+				    		            case "blue": return L.circleMarker(latlng, markerBlue);
+				    		            case "brown": return L.circleMarker(latlng, markerBrown);
+				    		            case "violet": return L.circleMarker(latlng, markerViolet);
+				    		            case "yellow": return L.circleMarker(latlng, markerYellow);
+				    		            case "grey": return L.circleMarker(latlng, markerGrey);
+				    		    }
+				    		    }
+				    		}).addTo(map);	
+				      	}
+				      	else
+				      	{
+				      		alert( 'There is not any object in chosen area.' );
+				      	}
+				    }
+				  };
+				
+				xhttp.open("GET", "/searchFromPoint?doctor="+doctor+"&dentist="+dentist+"&hospital="+hospital+
+						"&clinic="+clinic+"&pharmacy="+pharmacy+"&point="+point, true);
+				xhttp.send();
+				
+			}
+			else
+			{
+				alert( 'There is too many markers or there is not any marker on map. It have to be exactly one.' );
+			}
+		}
+		else
+		{
+            alert( 'Check atleast one object.' );
+		}
+	}
+	
+	function searchTriples() {
+		
+		clearMapAll();
+		
+		if(checkCheckBoxes2())
+		{
+			var doctor = document.getElementById('check1').checked;
+			var dentist = document.getElementById('check2').checked;
+			var hospital = document.getElementById('check3').checked;
+			var clinic = document.getElementById('check4').checked;
+			var pharmacy = document.getElementById('check5').checked;
+			
+			var e = document.getElementById("dropdown");
+			var dropdown = e.options[e.selectedIndex].value;
+		
+			var xhttp = new XMLHttpRequest();
+			  xhttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {				      
+			      	var response = JSON.parse(this.responseText);
+					
+			      	if(this.responseText !== 'null')
+			      	{
+			      		L.geoJSON(response, {
+			    			onEachFeature: onEachFeature,
+			    		    pointToLayer: function (feature, latlng) {
+			    		    	  switch(feature.style.fill){
+			    		    	  case "red": return L.circleMarker(latlng, markerRed);
+			    		            case "orange": return L.circleMarker(latlng, markerOrange);
+			    		            case "green": return L.circleMarker(latlng, markerGreen);
+			    		            case "blue": return L.circleMarker(latlng, markerBlue);
+			    		            case "brown": return L.circleMarker(latlng, markerBrown);
+			    		            case "violet": return L.circleMarker(latlng, markerViolet);
+			    		            case "yellow": return L.circleMarker(latlng, markerYellow);
+			    		            case "grey": return L.circleMarker(latlng, markerGrey);
+			    		    }
+			    		    }
+			    		}).addTo(map);	
+			      	}
+			      	else
+			      	{
+			      		alert( 'There is no trinity in the selected area.' );
+			      	}
+			    }
+			  };
+			xhttp.open("GET", "/searchTriples?doctor="+doctor+"&dentist="+dentist+"&hospital="+hospital+
+					"&clinic="+clinic+"&pharmacy="+pharmacy+"&dropdown="+dropdown, false);
+			xhttp.send();
+		}
+		else
+		{
+            alert( 'Check exatly three objects.' );
+		}
+	}
+</script>
+</html>
+
